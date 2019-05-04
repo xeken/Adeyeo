@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Adeyeo</string>
+    <string name="app_name">어데여</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

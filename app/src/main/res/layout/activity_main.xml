@@ -25,6 +25,7 @@
         android:background="@drawable/main_button"
         android:ems="14"
         android:hint="주소를 입력하세요"
+        android:imeOptions="actionSearch"
         android:inputType="text"
         android:paddingEnd="20dp"
         android:textAlignment="center"
