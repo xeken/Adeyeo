@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:background="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSearch"
         app:layout_constraintEnd_toEndOf="@+id/editTextSearch"
         app:layout_constraintTop_toTopOf="@+id/editTextSearch"
         app:srcCompat="@drawable/ic_search32" />

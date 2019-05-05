@@ -3,6 +3,7 @@ package kr.hs.dgsw.adeyeo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ResultActivity extends AppCompatActivity {
@@ -17,7 +18,10 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         address = intent.getStringExtra("address");
 
-        TextView test = findViewById(R.id.test);
+        TextView test = findViewById(R.id.textViewAddress);
         test.setText(address);
+
+        ImageButton buttonGoMap = findViewById(R.id.buttonGoMain);
+        buttonGoMap.setOnClickListener(v -> finish());
     }
 }
