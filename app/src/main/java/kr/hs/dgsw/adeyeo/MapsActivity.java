@@ -7,7 +7,6 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -27,9 +26,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ImageButton buttonGoMain2;
     private ImageButton buttonMyLocation;
     private SupportMapFragment mapFragment;
-    private Location myLocation;
+    private Location GPSLocation;
+    private Location NetLocation;
 
-    //gps 켜져있는지 확인할 것
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -40,14 +39,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
 
-        myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        GPSLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        NetLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         buttonGoMain2 = findViewById(R.id.buttonGoMain2);
         buttonGoMain2.setOnClickListener(v -> finish());
 
         buttonMyLocation = findViewById(R.id.buttonMyLocation);
-        buttonMyLocation.setOnClickListener(v -> googleMap.moveCamera(CameraUpdateFactory
-                .newLatLng(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()))));
+        buttonMyLocation.setOnClickListener(v -> {
+            try {
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude())));
+            }catch (Exception e){
+                Toast.makeText(this, "GPS 신호가 원할하지 않습니다.", Toast.LENGTH_SHORT).show();
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude())));
+            }
+        });
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -60,9 +66,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng;
 
         try {
-            latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+            latLng = new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude());
         } catch (Exception e) {
-            latLng = new LatLng(35.397860, 128.248090);
+            latLng = new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude());
+            //latLng = new LatLng(35.397860, 128.248090);
             Toast.makeText(this, "GPS 신호가 원할하지 않습니다", Toast.LENGTH_SHORT).show();
         }
 
