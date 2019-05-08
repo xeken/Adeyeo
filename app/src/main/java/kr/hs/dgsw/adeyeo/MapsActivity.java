@@ -1,14 +1,16 @@
 package kr.hs.dgsw.adeyeo;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,14 +18,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static kr.hs.dgsw.adeyeo.MainActivity.REQUEST_CODE_LOCATION;
+import static kr.hs.dgsw.adeyeo.MainActivity.locationManager;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap googleMap;
-    private LocationManager locationManager;
-    private final static int REQUEST_CODE_LOCATION = 37;
     private ImageButton buttonGoMain2;
     private ImageButton buttonMyLocation;
     private SupportMapFragment mapFragment;
+    private Location myLocation;
 
     //gps 켜져있는지 확인할 것
     @Override
@@ -32,14 +36,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+
+        myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         buttonGoMain2 = findViewById(R.id.buttonGoMain2);
         buttonGoMain2.setOnClickListener(v -> finish());
 
         buttonMyLocation = findViewById(R.id.buttonMyLocation);
         buttonMyLocation.setOnClickListener(v -> googleMap.moveCamera(CameraUpdateFactory
-                .newLatLng(new LatLng(getMyLocation().getLatitude(), getMyLocation().getLongitude()))));
+                .newLatLng(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()))));
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -49,10 +57,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap gm) {
 
         this.googleMap = gm;
-        Location currentLocation = getMyLocation();
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        LatLng latLng;
 
-        googleMap.setOnMapClickListener(v->{
+        try {
+            latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+        } catch (Exception e) {
+            latLng = new LatLng(35.397860, 128.248090);
+            Toast.makeText(this, "GPS 신호가 원할하지 않습니다", Toast.LENGTH_SHORT).show();
+        }
+
+        googleMap.setOnMapClickListener(v -> {
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.title("여기?");
             markerOptions.position(new LatLng(v.latitude, v.longitude));
@@ -68,19 +82,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-    }
-
-    private Location getMyLocation() {
-
-        Location currentLocation = null;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
-        else {
-            String locationProvider = LocationManager.GPS_PROVIDER;
-            currentLocation = locationManager.getLastKnownLocation(locationProvider);
-        }
-        return currentLocation;
     }
 
 }
