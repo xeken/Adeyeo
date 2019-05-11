@@ -9,7 +9,7 @@ import android.widget.TextView;
 public class ResultActivity extends AppCompatActivity {
 
     private String address;
-
+    private String latitude, longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +17,8 @@ public class ResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         address = intent.getStringExtra("address");
+        latitude = intent.getStringExtra("latitude");
+        longitude = intent.getStringExtra("longitude");
 
         TextView test = findViewById(R.id.textViewAddress);
         test.setText(address);

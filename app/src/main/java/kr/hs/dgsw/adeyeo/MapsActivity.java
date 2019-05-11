@@ -1,12 +1,14 @@
 package kr.hs.dgsw.adeyeo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -24,7 +26,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap googleMap;
     private ImageButton buttonGoMain2;
-    private ImageButton buttonMyLocation;
     private SupportMapFragment mapFragment;
     private Location GPSLocation;
     private Location NetLocation;
@@ -45,16 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonGoMain2 = findViewById(R.id.buttonGoMain2);
         buttonGoMain2.setOnClickListener(v -> finish());
 
-        buttonMyLocation = findViewById(R.id.buttonMyLocation);
-        buttonMyLocation.setOnClickListener(v -> {
-            try {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude())));
-            }catch (Exception e){
-                Toast.makeText(this, "GPS 신호가 원할하지 않습니다.", Toast.LENGTH_SHORT).show();
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude())));
-            }
-        });
-
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -69,9 +60,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latLng = new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude());
         } catch (Exception e) {
             latLng = new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude());
-            //latLng = new LatLng(35.397860, 128.248090);
             Toast.makeText(this, "GPS 신호가 원할하지 않습니다", Toast.LENGTH_SHORT).show();
         }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+
+        MarkerOptions makerOptions = new MarkerOptions();
+        makerOptions
+                .position(latLng)
+                .title("현재 위치");
+        googleMap.addMarker(makerOptions);
 
         googleMap.setOnMapClickListener(v -> {
             MarkerOptions markerOptions = new MarkerOptions();
@@ -81,14 +78,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             googleMap.addMarker(markerOptions);
         });
 
-        MarkerOptions makerOptions = new MarkerOptions();
-        makerOptions
-                .position(latLng)
-                .title("현재 위치");
-        googleMap.addMarker(makerOptions);
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        googleMap.setOnMarkerClickListener(v->{
+           LatLng mark =  v.getPosition();
+           Intent i = new Intent(this, ResultActivity.class);
+           i.putExtra("latitude", mark.latitude);
+           i.putExtra("longitude", mark.longitude);
+           startActivity(i);
+           Toast.makeText(this,"mark = "+mark.latitude +", "+mark.longitude ,Toast.LENGTH_SHORT).show();
+            return true;
+        });
     }
 
+    public void onClick_myLocation(View view){
+
+        try {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude())));
+        }catch (Exception e){
+            Toast.makeText(this, "GPS 신호가 원할하지 않습니다.", Toast.LENGTH_SHORT).show();
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude())));
+        }
+    }
 }

@@ -54,6 +54,7 @@
         android:textSize="20sp"
         android:textColor="@color/colorDark"
         android:textStyle="bold"
+        android:onClick="goMap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
