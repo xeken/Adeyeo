@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import kr.hs.dgsw.adeyeo.connect.Address;
 
 import static kr.hs.dgsw.adeyeo.MainActivity.REQUEST_CODE_LOCATION;
 import static kr.hs.dgsw.adeyeo.MainActivity.locationManager;
@@ -36,6 +39,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        buttonGoMain2 = findViewById(R.id.buttonGoMain2);
+        buttonGoMain2.setOnClickListener(v -> finish());
+
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
@@ -43,11 +52,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GPSLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         NetLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        buttonGoMain2 = findViewById(R.id.buttonGoMain2);
-        buttonGoMain2.setOnClickListener(v -> finish());
-
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -65,14 +69,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
         MarkerOptions makerOptions = new MarkerOptions();
-        makerOptions
-                .position(latLng)
-                .title("현재 위치");
+        makerOptions.position(latLng);
         googleMap.addMarker(makerOptions);
 
         googleMap.setOnMapClickListener(v -> {
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.title("여기?");
             markerOptions.position(new LatLng(v.latitude, v.longitude));
             googleMap.clear();
             googleMap.addMarker(markerOptions);
@@ -80,22 +81,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         googleMap.setOnMarkerClickListener(v->{
            LatLng mark =  v.getPosition();
-           Intent i = new Intent(this, ResultActivity.class);
-           i.putExtra("latitude", mark.latitude);
-           i.putExtra("longitude", mark.longitude);
-           startActivity(i);
-           Toast.makeText(this,"mark = "+mark.latitude +", "+mark.longitude ,Toast.LENGTH_SHORT).show();
-            return true;
+           Toast.makeText(this, geoToAddress(mark.latitude, mark.longitude) ,Toast.LENGTH_SHORT).show();
+
+           Intent intent = new Intent(this, ResultActivity.class);
+           intent.putExtra("address", geoToAddress(mark.latitude, mark.longitude));
+           startActivity(intent);
+
+           return true;
         });
     }
 
     public void onClick_myLocation(View view){
 
         try {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude())));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude()), 17));
         }catch (Exception e){
             Toast.makeText(this, "GPS 신호가 원할하지 않습니다.", Toast.LENGTH_SHORT).show();
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude())));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude()), 17));
         }
+    }
+
+    public String geoToAddress(double lat, double lon){
+
+        String requestUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
+        requestUrl += lat +"," +lon;
+        requestUrl += "&key=" + getResources().getString(R.string.google_maps_key);
+        requestUrl += "&language=ko";
+
+        Address threadAddress = new Address(requestUrl);
+        String address = threadAddress.getAddress();
+
+        if(address.substring(0,4).equals("대한민국"))
+            return address.substring(5);
+        else
+            return "우리나라만 선택해주세요.";
     }
 }

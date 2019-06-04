@@ -1,24 +1,25 @@
 package kr.hs.dgsw.adeyeo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
 
     public static LocationManager locationManager;
-    public final static int REQUEST_CODE_LOCATION = 37;
+    public final static int REQUEST_CODE_LOCATION = 444;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
