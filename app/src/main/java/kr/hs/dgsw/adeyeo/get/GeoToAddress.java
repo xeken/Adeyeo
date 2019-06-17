@@ -31,7 +31,7 @@ public class GeoToAddress {
         if (address.substring(0, 4).equals("대한민국"))
             returnStr = address.substring(5);
         else
-            returnStr = "우리나라만 선택해주세요.";
+            returnStr = "주소를 확인해주세요.";
 
         return returnStr;
     }

@@ -35,7 +35,8 @@ public class Address {
             address = object.get("formatted_address").getAsString();
 
         }catch (Exception e){
-            Log.e("TAG", "PARSING ERROR");
+            Log.e("TAG", "PARSING ERROR", e);
+            address = "주소를 확인해주세요.";
         }
 
         return address;
