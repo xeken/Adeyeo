@@ -2,37 +2,38 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/main_background"
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="241dp"
-        android:layout_height="244dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:id="@+id/imageViewMain"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        app:layout_constraintBottom_toTopOf="@+id/center_point"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_main" />
+        app:srcCompat="@drawable/ic_main_big" />
 
     <EditText
         android:id="@+id/editTextSearch"
         android:layout_width="350dp"
-        android:layout_height="67dp"
-        android:background="@drawable/main_button"
-        android:ems="14"
-        android:hint="주소를 입력하세요"
+        android:layout_height="65dp"
+        android:background="@drawable/button_main"
+        android:ems="15"
+        android:hint="@string/main_editText_hint"
         android:imeOptions="actionSearch"
         android:inputType="text"
+        android:paddingStart="0dp"
         android:paddingEnd="20dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/imageViewMain" />
 
     <ImageButton
         android:id="@+id/imageButtonGoResult"
@@ -43,25 +44,24 @@
         app:layout_constraintBottom_toBottomOf="@+id/editTextSearch"
         app:layout_constraintEnd_toEndOf="@+id/editTextSearch"
         app:layout_constraintTop_toTopOf="@+id/editTextSearch"
-        app:srcCompat="@drawable/ic_search32" />
+        app:srcCompat="@drawable/ic_search" />
 
     <Button
         android:id="@+id/buttonGoMap"
-        android:layout_width="189dp"
-        android:layout_height="66dp"
-        android:background="@drawable/main_button"
-        android:text="지도로 갑시다"
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:background="@drawable/button_main"
+        android:text="@string/main_button_goMap"
         android:textSize="20sp"
         android:textColor="@color/colorDark"
         android:textStyle="bold"
-        android:onClick="goMap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewMain" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/center_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"

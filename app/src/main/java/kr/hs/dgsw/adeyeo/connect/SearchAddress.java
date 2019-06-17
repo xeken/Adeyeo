@@ -2,11 +2,10 @@ package kr.hs.dgsw.adeyeo.connect;
 
 import android.util.Log;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import kr.hs.dgsw.adeyeo.domain.Results;
+import kr.hs.dgsw.adeyeo.domain.ResultValues;
 
 public class SearchAddress {
 
@@ -17,12 +16,12 @@ public class SearchAddress {
         this.url = url;
     }
 
-    public Results getSearched(){
+    public ResultValues getSearched(){
 
         ConnectThread connection = new ConnectThread(this.url);
         connection.start();
 
-        Results results = new Results();
+        ResultValues results = new ResultValues();
 
         try{
 
@@ -40,7 +39,9 @@ public class SearchAddress {
 
         }catch (Exception e){
             Log.d("TAG", "PARSING ERROR");
-            return null;
+            results.setZip("");
+            results.setEng("주소를 확인해주세요");
+            results.setKor("");
         }
         return results;
     }

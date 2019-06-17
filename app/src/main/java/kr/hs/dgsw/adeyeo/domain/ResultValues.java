@@ -1,6 +1,6 @@
 package kr.hs.dgsw.adeyeo.domain;
 
-public class Results {
+public class ResultValues {
 
     private String kor;
     private String eng;

@@ -1,0 +1,420 @@
+//{
+//  "results": {
+//    "common": {
+//      "errorMessage": "정상",
+//      "countPerPage": "10",
+//      "totalCount": "1",
+//      "errorCode": "0",
+//      "currentPage": "1"
+//    },
+//    "juso": [
+//      {
+//        "zipNo": "39893",
+//        "emdNm": "Waegwan-eup",
+//        "rn": "Jungang-ro 9-gil",
+//        "jibunAddr": "262-41, Waegwan-ri, Waegwan-eup, Chilgok-gun, Gyeongsangbuk-do",
+//        "siNm": "Gyeongsangbuk-do",
+//        "sggNm": "Chilgok-gun",
+//        "admCd": "4785025021",
+//        "udrtYn": "0",
+//        "lnbrMnnm": "262",
+//        "roadAddr": "30-3, Jungang-ro 9-gil, Waegwan-eup, Chilgok-gun, Gyeongsangbuk-do",
+//        "korAddr": "경상북도 칠곡군 왜관읍 중앙로9길 30-3",
+//        "lnbrSlno": "41",
+//        "buldMnnm": "30",
+//        "bdKdcd": "0",
+//        "rnMgtSn": "478504766509",
+//        "liNm": "Waegwan-ri",
+//        "mtYn": "0",
+//        "buldSlno": "3"
+//      }
+//    ]
+//  }
+//}
+
+{
+  "plus_code" : {
+    "compound_code" : "2222+22 대한민국 경기도 연천군",
+    "global_code" : "8QC92222+22"
+  },
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "산33",
+          "short_name" : "산33",
+          "types" : [ "premise" ]
+        },
+        {
+          "long_name" : "마포리",
+          "short_name" : "마포리",
+          "types" : [ "political", "sublocality", "sublocality_level_3" ]
+        },
+        {
+          "long_name" : "전곡읍",
+          "short_name" : "전곡읍",
+          "types" : [ "political", "sublocality", "sublocality_level_2" ]
+        },
+        {
+          "long_name" : "연천군",
+          "short_name" : "연천군",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "경기도",
+          "short_name" : "경기도",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "486-900",
+          "short_name" : "486-900",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "대한민국 경기도 연천군 전곡읍 마포리 산33",
+      "geometry" : {
+        "location" : {
+          "lat" : 37.9993064,
+          "lng" : 126.9996959
+        },
+        "location_type" : "ROOFTOP",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.00065538029151,
+            "lng" : 127.0010448802915
+          },
+          "southwest" : {
+            "lat" : 37.99795741970851,
+            "lng" : 126.9983469197085
+          }
+        }
+      },
+      "place_id" : "ChIJy8tDywfffDURWHTycql7rPI",
+      "plus_code" : {
+        "compound_code" : "XXXX+PV 대한민국 경기도 연천군",
+        "global_code" : "8Q98XXXX+PV"
+      },
+      "types" : [ "street_address" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "마포리",
+          "short_name" : "마포리",
+          "types" : [ "political", "sublocality", "sublocality_level_3" ]
+        },
+        {
+          "long_name" : "전곡읍",
+          "short_name" : "전곡읍",
+          "types" : [ "political", "sublocality", "sublocality_level_2" ]
+        },
+        {
+          "long_name" : "연천군",
+          "short_name" : "연천군",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "경기도",
+          "short_name" : "경기도",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "486-900",
+          "short_name" : "486-900",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "대한민국 경기도 연천군 전곡읍 마포리",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.0116989,
+            "lng" : 127.0166579
+          },
+          "southwest" : {
+            "lat" : 37.9929928,
+            "lng" : 126.9877198
+          }
+        },
+        "location" : {
+          "lat" : 38.0026271,
+          "lng" : 127.002828
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.0116989,
+            "lng" : 127.0166579
+          },
+          "southwest" : {
+            "lat" : 37.9929928,
+            "lng" : 126.9877198
+          }
+        }
+      },
+      "place_id" : "ChIJ8XfwNQnffDUR06AW2WYV6Ps",
+      "types" : [ "political", "sublocality", "sublocality_level_3" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "전곡읍",
+          "short_name" : "전곡읍",
+          "types" : [ "political", "sublocality", "sublocality_level_2" ]
+        },
+        {
+          "long_name" : "연천군",
+          "short_name" : "연천군",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "경기도",
+          "short_name" : "경기도",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "486-900",
+          "short_name" : "486-900",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "대한민국 경기도 연천군 전곡읍",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.0635513,
+            "lng" : 127.1174925
+          },
+          "southwest" : {
+            "lat" : 37.9277224,
+            "lng" : 126.9747817
+          }
+        },
+        "location" : {
+          "lat" : 38.027834,
+          "lng" : 127.0645518
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.0635513,
+            "lng" : 127.1174925
+          },
+          "southwest" : {
+            "lat" : 37.9277224,
+            "lng" : 126.9747817
+          }
+        }
+      },
+      "place_id" : "ChIJexnD0LbYfDUR93rCoz8NWSk",
+      "types" : [ "political", "sublocality", "sublocality_level_2" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "486-900",
+          "short_name" : "486-900",
+          "types" : [ "postal_code" ]
+        },
+        {
+          "long_name" : "전곡읍",
+          "short_name" : "전곡읍",
+          "types" : [ "political", "sublocality", "sublocality_level_2" ]
+        },
+        {
+          "long_name" : "연천군",
+          "short_name" : "연천군",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "경기도",
+          "short_name" : "경기도",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "대한민국 경기도 연천군 전곡읍",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.0635513,
+            "lng" : 127.1174925
+          },
+          "southwest" : {
+            "lat" : 37.9277224,
+            "lng" : 126.9747817
+          }
+        },
+        "location" : {
+          "lat" : 37.9893888,
+          "lng" : 127.0292986
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.0635513,
+            "lng" : 127.1174925
+          },
+          "southwest" : {
+            "lat" : 37.9277224,
+            "lng" : 126.9747817
+          }
+        }
+      },
+      "place_id" : "ChIJexnD0LbYfDUR0H9K12boy88",
+      "types" : [ "postal_code" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "연천군",
+          "short_name" : "연천군",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "경기도",
+          "short_name" : "경기도",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "대한민국 경기도 연천군",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.302671,
+            "lng" : 127.1892671
+          },
+          "southwest" : {
+            "lat" : 37.9277224,
+            "lng" : 126.7666661
+          }
+        },
+        "location" : {
+          "lat" : 38.0964438,
+          "lng" : 127.0748335
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.302671,
+            "lng" : 127.1892671
+          },
+          "southwest" : {
+            "lat" : 37.9277224,
+            "lng" : 126.7666661
+          }
+        }
+      },
+      "place_id" : "ChIJiwRU64chfTURJbYgnupP6cM",
+      "types" : [ "locality", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "경기도",
+          "short_name" : "경기도",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "대한민국 경기도",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.302671,
+            "lng" : 127.8582526
+          },
+          "southwest" : {
+            "lat" : 36.89396860000001,
+            "lng" : 126.333561
+          }
+        },
+        "location" : {
+          "lat" : 37.41379999999999,
+          "lng" : 127.5183
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.302671,
+            "lng" : 127.8582526
+          },
+          "southwest" : {
+            "lat" : 36.89396860000001,
+            "lng" : 126.333561
+          }
+        }
+      },
+      "place_id" : "ChIJjbZ-5eR5fDURwrX21pgfDAE",
+      "types" : [ "administrative_area_level_1", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "대한민국",
+          "short_name" : "KR",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "대한민국",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 38.63400000000001,
+            "lng" : 131.1603
+          },
+          "southwest" : {
+            "lat" : 33.0041,
+            "lng" : 124.5863
+          }
+        },
+        "location" : {
+          "lat" : 35.907757,
+          "lng" : 127.766922
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 38.63400000000001,
+            "lng" : 131.1603
+          },
+          "southwest" : {
+            "lat" : 33.0041,
+            "lng" : 124.5863
+          }
+        }
+      },
+      "place_id" : "ChIJm7oRy-tVZDURS9uIugCbJJE",
+      "types" : [ "country", "political" ]
+    }
+  ],
+  "status" : "OK"
+}

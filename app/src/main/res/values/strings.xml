@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">어데여</string>
     <string name="title_activity_maps">Map</string>
+    <string name="main_editText_hint">주소를 입력해주세요</string>
+    <string name="main_button_goMap">지도에서 찾기</string>
+    <string name="maps_text_map">지도</string>
+    <string name="result_text_main">검색 결과</string>
 </resources>

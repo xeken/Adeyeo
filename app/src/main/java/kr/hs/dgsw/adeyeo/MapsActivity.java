@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -17,10 +17,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import kr.hs.dgsw.adeyeo.connect.Address;
+import kr.hs.dgsw.adeyeo.get.GeoToAddress;
 
 import static kr.hs.dgsw.adeyeo.MainActivity.REQUEST_CODE_LOCATION;
 import static kr.hs.dgsw.adeyeo.MainActivity.locationManager;
@@ -28,7 +29,6 @@ import static kr.hs.dgsw.adeyeo.MainActivity.locationManager;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap googleMap;
-    private ImageButton buttonGoMain2;
     private SupportMapFragment mapFragment;
     private Location GPSLocation;
     private Location NetLocation;
@@ -39,25 +39,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        buttonGoMain2 = findViewById(R.id.buttonGoMain2);
-        buttonGoMain2.setOnClickListener(v -> finish());
+        ImageButton buttonGoMain = findViewById(R.id.buttonGoMain2);
+        buttonGoMain.setOnClickListener(v -> finish());
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
+        } else {
 
-        GPSLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        NetLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            GPSLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            NetLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            mapFragment.getMapAsync(this);
+        }
 
     }
 
     @Override
-    public void onMapReady(GoogleMap gm) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                GPSLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                NetLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                mapFragment.getMapAsync(this);
+            }
+        }
+    }
 
-        this.googleMap = gm;
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        this.googleMap = googleMap;
         LatLng latLng;
 
         try {
@@ -66,54 +81,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latLng = new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude());
             Toast.makeText(this, "GPS 신호가 원할하지 않습니다", Toast.LENGTH_SHORT).show();
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
 
-        MarkerOptions makerOptions = new MarkerOptions();
-        makerOptions.position(latLng);
-        googleMap.addMarker(makerOptions);
+        MarkerOptions markerOptions = new MarkerOptions();
+        //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_placehorder));
+        this.googleMap.addMarker(markerOptions.position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-        googleMap.setOnMapClickListener(v -> {
-            MarkerOptions markerOptions = new MarkerOptions();
+        this.googleMap.setOnMapClickListener(v -> {
             markerOptions.position(new LatLng(v.latitude, v.longitude));
             googleMap.clear();
-            googleMap.addMarker(markerOptions);
+            googleMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         });
 
-        googleMap.setOnMarkerClickListener(v->{
-           LatLng mark =  v.getPosition();
-           Toast.makeText(this, geoToAddress(mark.latitude, mark.longitude) ,Toast.LENGTH_SHORT).show();
+        this.googleMap.setOnMarkerClickListener(v -> {
+            LatLng mark = v.getPosition();
+            GeoToAddress geoToAddress = new GeoToAddress(mark.latitude, mark.longitude, this);
+            Toast.makeText(this, geoToAddress.get(), Toast.LENGTH_SHORT).show();
 
-           Intent intent = new Intent(this, ResultActivity.class);
-           intent.putExtra("address", geoToAddress(mark.latitude, mark.longitude));
-           startActivity(intent);
+            Intent intent = new Intent(this, ResultActivity.class);
+            intent.putExtra("address", geoToAddress.get());
+            intent.putExtra("lat", mark.latitude);
+            intent.putExtra("lng", mark.longitude);
+            startActivity(intent);
 
-           return true;
+            return true;
         });
     }
 
-    public void onClick_myLocation(View view){
+    public void onClick_myLocation(View view) {
 
-        try {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude()), 17));
-        }catch (Exception e){
+        LatLng recent;
+        try { recent = new LatLng(GPSLocation.getLatitude(), GPSLocation.getLongitude()); }
+        catch (Exception e) {
+            recent = new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude());
             Toast.makeText(this, "GPS 신호가 원할하지 않습니다.", Toast.LENGTH_SHORT).show();
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(NetLocation.getLatitude(), NetLocation.getLongitude()), 17));
         }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(recent, 17));
+        googleMap.clear();
+        MarkerOptions markerOptions = new MarkerOptions();
+        this.googleMap.addMarker(markerOptions.position(recent).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
     }
 
-    public String geoToAddress(double lat, double lon){
-
-        String requestUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
-        requestUrl += lat +"," +lon;
-        requestUrl += "&key=" + getResources().getString(R.string.google_maps_key);
-        requestUrl += "&language=ko";
-
-        Address threadAddress = new Address(requestUrl);
-        String address = threadAddress.getAddress();
-
-        if(address.substring(0,4).equals("대한민국"))
-            return address.substring(5);
-        else
-            return "우리나라만 선택해주세요.";
-    }
 }
